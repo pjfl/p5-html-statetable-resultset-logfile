@@ -74,13 +74,6 @@ has 'path' =>
       return $self->base->catfile($path);
    };
 
-=item result_class
-
-=cut
-
-has '+result_class' =>
-   default => 'HTML::StateTable::ResultSet::Logfile::View::Result';
-
 =item total_results
 
 =cut
