@@ -2,7 +2,7 @@ package HTML::StateTable::ResultSet::Logfile::View;
 
 use File::DataClass::Types      qw( File );
 use HTML::StateTable::Constants qw( DOT FALSE TRUE );
-use HTML::StateTable::Types     qw( HashRef Str );
+use HTML::StateTable::Types     qw( HashRef Object Str );
 use Type::Utils                 qw( class_type );
 use HTML::StateTable::ResultSet::Logfile::Cache;
 use Moo;
@@ -42,15 +42,9 @@ has 'cache' =>
       my $self = shift;
 
       return HTML::StateTable::ResultSet::Logfile::Cache->new(
-         config => $self->cache_config, resultset => $self
+         redis => $self->redis, resultset => $self
       );
    };
-
-=item cache_config
-
-=cut
-
-has 'cache_config' => is => 'ro', isa => HashRef, default => sub { {} };
 
 =item logfile
 
@@ -73,6 +67,8 @@ has 'path' =>
 
       return $self->base->catfile($path);
    };
+
+has 'redis' => is => 'ro', isa => Object, required => TRUE;
 
 =item total_results
 

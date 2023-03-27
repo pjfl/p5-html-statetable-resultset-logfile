@@ -25,6 +25,10 @@ Defines the following attributes;
     in the logfile. It is false when the results list only contains a partial
     view of the logfile
 
+- count
+
+    Synonym for `total_results`
+
 - current\_source\_alias
 
     A string which defaults to `me`. Needed by [HTML::StateTable](https://metacpan.org/pod/HTML%3A%3AStateTable)

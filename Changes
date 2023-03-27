@@ -1,5 +1,6 @@
 Revision history for HTML::StateTable::ResultSet::Logfile
 
+          - Moved Redis client out to application
           - Remove result class default
           - Added files from MCat demo application
 

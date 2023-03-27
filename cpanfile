@@ -8,7 +8,6 @@ requires "IPC::Run" => "20220807.0";
 requires "JSON::MaybeXS" => "1.004004";
 requires "Moo" => "2.005005";
 requires "MooX::HandlesVia" => "0.001009";
-requires "Redis" => "2.000";
 requires "Ref::Util" => "0.204";
 requires "Type::Tiny" => "2.002001";
 requires "Unexpected" => "v1.0.5";

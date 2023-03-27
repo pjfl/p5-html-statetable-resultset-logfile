@@ -1,12 +1,11 @@
 package HTML::StateTable::ResultSet::Logfile::Cache;
 
 use HTML::StateTable::Constants qw( EXCEPTION_CLASS FALSE TRUE );
-use HTML::StateTable::Types     qw( HashRef );
+use HTML::StateTable::Types     qw( HashRef Object );
 use IPC::Run                    qw( run );
 use JSON::MaybeXS               qw( decode_json encode_json );
 use Type::Utils                 qw( class_type );
 use Unexpected::Functions       qw( throw );
-use HTML::StateTable::ResultSet::Redis;
 use Moo;
 
 my $CACHE_LAG_SECS = 300;
@@ -41,6 +40,12 @@ Defines the following attributes;
 
 has 'config' => is => 'ro', isa => HashRef, default => sub { {} };
 
+=item redis
+
+=cut
+
+has 'redis' => is => 'ro', isa => Object, required => TRUE;
+
 =item resultset
 
 =cut
@@ -49,15 +54,6 @@ has 'resultset' =>
    is       => 'ro',
    isa      => class_type('HTML::StateTable::ResultSet::Logfile'),
    required => TRUE;
-
-has '_redis' =>
-   is      => 'lazy',
-   isa     => class_type('HTML::StateTable::ResultSet::Redis'),
-   default => sub {
-      return HTML::StateTable::ResultSet::Redis->new(
-         client_name => 'logfile_cache', config => shift->config,
-      );
-   };
 
 =back
 
@@ -239,7 +235,7 @@ sub _read_by_line_numbers {
 sub _read_cache {
    my ($self, $key, $source) = @_;
 
-   my $redis = $self->_redis;
+   my $redis = $self->redis;
    my $mtime = $self->resultset->path->stat->{mtime};
    my $cache = decode_json($redis->get($key)) if $redis->exists($key);
 

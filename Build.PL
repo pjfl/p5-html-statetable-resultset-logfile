@@ -22,7 +22,6 @@ my $prereqs  = {
     'JSON::MaybeXS' => '1.004004',
     'Moo' => '2.005005',
     'MooX::HandlesVia' => '0.001009',
-    'Redis' => '2.000',
     'Ref::Util' => '0.204',
     'Type::Tiny' => '2.002001',
     'Unexpected' => 'v1.0.5',

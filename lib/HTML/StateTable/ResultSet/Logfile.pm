@@ -1,7 +1,7 @@
 package HTML::StateTable::ResultSet::Logfile;
 
 use 5.010001;
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 3 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 4 $ =~ /\d+/gmx );
 
 use Data::Page;
 use File::DataClass::Types      qw( Directory );
@@ -53,6 +53,15 @@ view of the logfile
 =cut
 
 has 'complete' => is => 'rw', isa => Bool, default => TRUE;
+
+=item count
+
+Synonym for C<total_results>
+
+=cut
+
+has 'count' => is => 'lazy', isa => Int,
+   default => sub { shift->total_results };
 
 =item current_source_alias
 

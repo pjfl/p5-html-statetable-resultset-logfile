@@ -6,7 +6,6 @@ lib/HTML/StateTable/ResultSet/Logfile/Cache.pm
 lib/HTML/StateTable/ResultSet/Logfile/Column.pm
 lib/HTML/StateTable/ResultSet/Logfile/List.pm
 lib/HTML/StateTable/ResultSet/Logfile/View.pm
-lib/HTML/StateTable/ResultSet/Redis.pm
 t/02pod.t
 t/03podcoverage.t
 t/05kwalitee.t
