@@ -54,6 +54,7 @@ sub build_results {
          base      => $self->base,
          extension => $extension,
          path      => $path,
+         table     => $self->table,
       );
    }, { recurse => TRUE });
 
