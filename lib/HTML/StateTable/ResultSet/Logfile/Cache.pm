@@ -86,8 +86,8 @@ sub read {
    my $rs   = $self->resultset;
    my $key  = $rs->path->as_string;
 
-   return $self->_read_all_lines($key)     if $self->_is_complete;
    return $self->_read_column_values($key) if $rs->has_column_filter;
+   return $self->_read_all_lines($key)     if $self->_is_complete;
    return $self->_read_some_lines($key)    if $rs->has_filter;
    return $self->_read_partial($key);
 }
@@ -259,9 +259,13 @@ sub _read_column_values {
    my $class  = $rs->result_class;
    my $col    = $rs->distinct_column->[0];
    my $values = $self->_read_cache("${key}!column-${col}", sub {
-      my @cmd    = ('cat', $rs->path->stringify);
-      my $result = $class->new(line => q());
       my $method = "${col}_filter";
+      my $values = "${method}_values";
+      my $result = $class->new(line => q());
+
+      return $result->$values if $result->can($values);
+
+      my @cmd    = ('cat', $rs->path->stringify);
       my @filter = $self->_partition_command($result->$method);
       my $stdin  = undef;
       my $stdout;

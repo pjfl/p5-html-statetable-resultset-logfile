@@ -1,5 +1,6 @@
 Revision history for HTML::StateTable::ResultSet::Logfile
 
+          - Will use filter values if supplied
           - Pass table object to row constructor
           - Moved Redis client out to application
           - Remove result class default
