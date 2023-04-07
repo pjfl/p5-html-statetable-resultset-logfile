@@ -265,7 +265,7 @@ sub _read_column_values {
 
       return $result->$values if $result->can($values);
 
-      my @cmd    = ('cat', $rs->path->stringify);
+      my @cmd    = ('cat', $rs->path->as_string);
       my @filter = $self->_partition_command($result->$method);
       my $stdin  = undef;
       my $stdout;
