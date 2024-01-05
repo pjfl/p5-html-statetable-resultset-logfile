@@ -1,7 +1,7 @@
 package HTML::StateTable::ResultSet::Logfile;
 
 use 5.010001;
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 7 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 8 $ =~ /\d+/gmx );
 
 use Data::Page;
 use File::DataClass::Types      qw( Directory );
@@ -71,8 +71,17 @@ A string which defaults to C<me>. Needed by L<HTML::StateTable>
 
 has 'current_source_alias' => is => 'ro', isa => Str, default => 'me';
 
-# The column filter option in HTML::StateTable will specify which column to
-# return unique values for
+=item distinct_column
+
+The column filter option in L<HTML::StateTable> will specify which column to
+return unique values for
+
+=item has_distinct_column
+
+Predicate
+
+=cut
+
 has 'distinct_column' =>
    is        => 'ro',
    isa       => ArrayRef[Str],

@@ -68,6 +68,10 @@ has 'path' =>
       return $self->base->catfile($path);
    };
 
+=item redis
+
+=cut
+
 has 'redis' => is => 'ro', isa => Object, required => TRUE;
 
 =item total_results

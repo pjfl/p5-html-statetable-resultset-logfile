@@ -1,5 +1,6 @@
 Revision history for HTML::StateTable::ResultSet::Logfile
 
+          - POD updates
           - Fixes path stringify
           - Will use filter values if supplied
           - Pass table object to row constructor
