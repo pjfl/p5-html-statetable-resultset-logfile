@@ -1,5 +1,6 @@
 Revision history for HTML::StateTable::ResultSet::Logfile
 
+          - Strips column names of sql function wrapper
           - POD updates
           - Fixes path stringify
           - Will use filter values if supplied

@@ -1,7 +1,7 @@
 package HTML::StateTable::ResultSet::Logfile;
 
 use 5.010001;
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 8 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 9 $ =~ /\d+/gmx );
 
 use Data::Page;
 use File::DataClass::Types      qw( Directory );
@@ -439,16 +439,26 @@ sub _set_sort_options {
       my $pair = $options->[0];
 
       ($order = (keys %{$pair})[0]) =~ s{ \A [\-] }{}mx;
-      ($col  = ${(values %{$pair})[0]}) =~ s{ \A \"me\" \. }{}mx;
-      $col =~ s{ (?: \A \" | \" \z ) }{}gmx;
+      $col = ${(values %{$pair})[0]};
    }
 
    if ($col && $order) {
+      $col = _strip_column_name($col);
       $self->_set_sort_column($col);
       $self->_set_sort_order($order);
    }
 
    return;
+}
+
+sub _strip_column_name {
+   my $col = shift;
+
+   $col =~ s{ \A LOWER\( (.+) \) \z }{$1}imx;
+   $col =~ s{ \A \"me\" \. }{}mx;
+   $col =~ s{ (?: \A \" | \" \z ) }{}gmx;
+
+   return $col;
 }
 
 sub _set_where_clause {
