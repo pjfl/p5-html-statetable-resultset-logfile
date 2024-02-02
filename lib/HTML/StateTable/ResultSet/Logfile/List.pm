@@ -44,14 +44,14 @@ sub build_results {
    my $extension = $self->extension;
    my $results   = [];
 
-   $self->base->visit(sub {
+   $self->directory->visit(sub {
       my $path = shift;
 
       return if $path->is_dir;
       return if $extension && $path->as_string !~ m{ \. $extension \z }mx;
 
       push @{$results}, $self->result_class->new(
-         base      => $self->base,
+         directory => $self->directory,
          extension => $extension,
          path      => $path,
          table     => $self->table,

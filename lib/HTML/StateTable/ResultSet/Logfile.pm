@@ -1,7 +1,7 @@
 package HTML::StateTable::ResultSet::Logfile;
 
 use 5.010001;
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 9 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 10 $ =~ /\d+/gmx );
 
 use Data::Page;
 use File::DataClass::Types      qw( Directory );
@@ -35,15 +35,6 @@ Defines the following attributes;
 
 =over 3
 
-=item base
-
-An instance of L<File::DataClass::IO> which represents the directory that
-contains the log files. Required
-
-=cut
-
-has 'base' => is => 'lazy', isa => Directory, required => TRUE;
-
 =item complete
 
 A mutable boolean which is true if the results list contains all the rows
@@ -70,6 +61,15 @@ A string which defaults to C<me>. Needed by L<HTML::StateTable>
 =cut
 
 has 'current_source_alias' => is => 'ro', isa => Str, default => 'me';
+
+=item directory
+
+An instance of L<File::DataClass::IO> which represents the directory that
+contains the files. Required
+
+=cut
+
+has 'directory' => is => 'lazy', isa => Directory, required => TRUE;
 
 =item distinct_column
 

@@ -46,26 +46,23 @@ has 'cache' =>
       );
    };
 
-=item logfile
-
-=cut
-
-has 'logfile' => is => 'ro', isa => Str, required => TRUE;
+has 'file' => is => 'ro', isa => Str, required => TRUE;
 
 =item path
 
 =cut
 
 has 'path' =>
-   is      => 'lazy',
-   isa     => File,
-   default => sub {
+   is       => 'lazy',
+   isa      => File,
+   init_arg => undef,
+   default  => sub {
       my $self = shift;
-      my $path = $self->logfile;
+      my $file = $self->file;
 
-      $path .= DOT . $self->extension if $self->extension;
+      $file .= DOT . $self->extension if $self->extension;
 
-      return $self->base->catfile($path);
+      return $self->directory->catfile($file);
    };
 
 =item redis
