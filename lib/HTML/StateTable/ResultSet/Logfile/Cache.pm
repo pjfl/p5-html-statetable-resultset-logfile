@@ -200,7 +200,7 @@ sub _read_all_lines {
    my $lines = $self->_read_cache($key, sub { [$path->chomp->slurp]});
    my $class = $rs->result_class;
 
-   return [ map { $class->new(line => $_) } @{$lines} ];
+   return [ map { $class->new(line => $_, resultset => $rs) } @{$lines} ];
 }
 
 sub _read_by_line_numbers {
@@ -261,7 +261,7 @@ sub _read_column_values {
    my $values = $self->_read_cache("${key}!column-${col}", sub {
       my $method = "${col}_filter";
       my $values = "${method}_values";
-      my $result = $class->new(line => q());
+      my $result = $class->new(line => q(), resultset => $rs);
 
       return $result->$values if $result->can($values);
 
@@ -278,7 +278,8 @@ sub _read_column_values {
       return [ split m{ \n }mx, $stdout ];
    });
 
-   return [ map { $class->new(line => q(), $col => $_) } @{$values} ];
+   return [ map { $class->new(line => q(), $col => $_, resultset => $rs) }
+            @{$values} ];
 }
 
 sub _read_partial {
@@ -300,17 +301,19 @@ sub _read_partial {
 
    my $class = $rs->result_class;
 
-   return [ map { $class->new(line => $_) } split m{ \n }mx, $buffer ];
+   return [ map { $class->new(line => $_, resultset => $rs) }
+            split m{ \n }mx, $buffer ];
 }
 
 sub _read_some_lines {
    my ($self, $key) = @_;
 
-   my $class = $self->resultset->result_class;
+   my $rs    = $self->resultset;
+   my $class = $rs->result_class;
    my $lnums = $self->_filtered_line_numbers($key);
    my $lines = $self->_read_by_line_numbers($key, $lnums);
 
-   return [ map { $class->new(line => $_) } @{$lines} ];
+   return [ map { $class->new(line => $_, resultset => $rs) } @{$lines} ];
 }
 
 use namespace::autoclean;

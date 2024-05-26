@@ -1,6 +1,7 @@
 package HTML::StateTable::ResultSet::Logfile::List;
 
 use HTML::StateTable::Constants qw( FALSE TRUE );
+use HTML::StateTable::Types     qw( Bool );
 use Moo;
 
 extends 'HTML::StateTable::ResultSet::Logfile';
@@ -23,9 +24,27 @@ Creates result objects for each matching file entry in the base directory
 
 =head1 Configuration and Environment
 
-Defines no attributes
+Defines the following attributes;
 
 =over 3
+
+=item allow_directories
+
+=cut
+
+has 'allow_directories' => is => 'ro', isa => Bool, default => FALSE;
+
+=item recurse
+
+=cut
+
+has 'recurse' => is => 'ro', isa => Bool, default => TRUE;
+
+=item show_dot_files
+
+=cut
+
+has 'show_dot_files' => is => 'ro', isa => Bool, default => FALSE;
 
 =back
 
@@ -47,8 +66,10 @@ sub build_results {
    $self->directory->visit(sub {
       my $path = shift;
 
-      return if $path->is_dir;
-      return if $extension && $path->as_string !~ m{ \. $extension \z }mx;
+      return if !$self->show_dot_files && $path->basename =~ m{ \A \. }mx;
+      return if $path->is_dir && !$self->allow_directories;
+      return if $extension && !$path->is_dir
+         && $path->as_string !~ m{ \. (?: $extension) \z }mx;
 
       push @{$results}, $self->result_class->new(
          directory => $self->directory,
@@ -56,7 +77,7 @@ sub build_results {
          path      => $path,
          table     => $self->table,
       );
-   }, { recurse => TRUE });
+   }, { recurse => $self->recurse });
 
    return $self->process($results);
 }

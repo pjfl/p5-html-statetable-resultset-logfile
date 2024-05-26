@@ -1,5 +1,6 @@
 Revision history for HTML::StateTable::ResultSet::Logfile
 
+          - Began renaming away from Logfile to just file
           - Adds synonym File classes. Begin fixing naming error
           - Strips column names of sql function wrapper
           - POD updates

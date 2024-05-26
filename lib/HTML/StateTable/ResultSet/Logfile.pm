@@ -1,14 +1,14 @@
 package HTML::StateTable::ResultSet::Logfile;
 
 use 5.010001;
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 10 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 11 $ =~ /\d+/gmx );
 
 use Data::Page;
 use File::DataClass::Types      qw( Directory );
 use HTML::StateTable::Constants qw( COL_INFO_TYPE_ATTR FALSE TRUE );
 use HTML::StateTable::Types     qw( ArrayRef Bool Int LoadableClass
                                     ResultRole Str Table Undef );
-use Ref::Util                   qw( is_arrayref is_hashref );
+use Ref::Util                   qw( is_arrayref is_coderef is_hashref );
 use HTML::StateTable::ResultSet::Logfile::Column;
 use Moo;
 use MooX::HandlesVia;
@@ -27,7 +27,8 @@ HTML::StateTable::ResultSet::Logfile - Iterator pattern for viewing logfiles
 
 =head1 Description
 
-An imitation of a L<DBIx::Class> resultset object
+An imitation of a L<DBIx::Class> resultset object. Unfortunately named, should
+be file not logfile
 
 =head1 Configuration and Environment
 
@@ -90,8 +91,7 @@ has 'distinct_column' =>
 
 =item extension
 
-A string which default to C<log>. The extension that all log files are expected
-to have
+A string which default to C<log>. The extension that files are expected to have
 
 =cut
 
@@ -497,6 +497,8 @@ sub _sort_results {
    my ($self, $results) = @_;
 
    my $col = $self->_sort_column or return $results;
+
+   return $results if is_coderef $col || $col =~ m{ \A CODE }mx ;
 
    if ($self->_is_numeric($col)) {
       return [ sort { $a->$col <=> $b->$col } @{$results} ]
