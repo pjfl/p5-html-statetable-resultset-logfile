@@ -1,7 +1,7 @@
 package HTML::StateTable::ResultSet::Logfile;
 
 use 5.010001;
-use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 12 $ =~ /\d+/gmx );
+use version; our $VERSION = qv( sprintf '0.1.%d', q$Rev: 13 $ =~ /\d+/gmx );
 
 use Data::Page;
 use File::DataClass::Types      qw( Directory );
@@ -88,14 +88,6 @@ has 'distinct_column' =>
    isa       => ArrayRef[Str],
    predicate => 'has_distinct_column',
    writer    => '_set_distinct_column';
-
-=item extension
-
-A string which default to C<log>. The extension that files are expected to have
-
-=cut
-
-has 'extension' => is => 'ro', isa => Str, default => 'log';
 
 # The where clause in calls to search adds filters to this list
 has '_filter' =>

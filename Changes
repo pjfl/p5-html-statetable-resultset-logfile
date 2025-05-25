@@ -1,5 +1,6 @@
 Revision history for HTML::StateTable::ResultSet::Logfile
 
+          - Remove references to an extension
           - Only add extension to filename if not there
           - Began renaming away from Logfile to just file
           - Adds synonym File classes. Begin fixing naming error

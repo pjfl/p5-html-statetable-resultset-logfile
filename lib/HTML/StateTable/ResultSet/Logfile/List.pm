@@ -59,27 +59,23 @@ Defines the following methods;
 =cut
 
 sub build_results {
-   my $self      = shift;
-   my $extension = $self->extension;
-   my $results   = [];
+   my $self    = shift;
+   my $results = [];
 
    $self->directory->visit(sub {
       my $path = shift;
 
       return if !$self->show_dot_files && $path->basename =~ m{ \A \. }mx;
       return if $path->is_dir && !$self->allow_directories;
-      return if $extension && !$path->is_dir
-         && $path->as_string !~ m{ \. (?: $extension) \z }mx;
 
       push @{$results}, $self->result_class->new(
          directory => $self->directory,
-         extension => $extension,
          path      => $path,
          table     => $self->table,
       );
    }, { recurse => $self->recurse });
 
-   return $self->process($results);
+   return $self->process([sort { $a->path cmp $b->path } @{$results}]);
 }
 
 use namespace::autoclean;

@@ -57,14 +57,7 @@ has 'path' =>
    isa      => File,
    init_arg => undef,
    default  => sub {
-      my $self      = shift;
-      my $file      = $self->file;
-      my $extension = $self->extension;
-
-      $file .= DOT . $extension
-         if $self->extension && $file !~ m{ \. $extension \z }mx;
-
-      return $self->directory->catfile($file);
+      my $self = shift; return $self->directory->catfile($self->file);
    };
 
 =item redis
